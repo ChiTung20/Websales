@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Asp\\Webbanhang\\DA\\DA.csproj": {}
+    "D:\\DA\\DA\\DA.csproj": {}
   },
   "projects": {
-    "D:\\Asp\\Webbanhang\\DA\\DA.csproj": {
+    "D:\\DA\\DA\\DA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Asp\\Webbanhang\\DA\\DA.csproj",
+        "projectUniqueName": "D:\\DA\\DA\\DA.csproj",
         "projectName": "DA",
-        "projectPath": "D:\\Asp\\Webbanhang\\DA\\DA.csproj",
+        "projectPath": "D:\\DA\\DA\\DA.csproj",
         "packagesPath": "C:\\Users\\nchit\\.nuget\\packages\\",
-        "outputPath": "D:\\Asp\\Webbanhang\\DA\\obj\\",
+        "outputPath": "D:\\DA\\DA\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nchit\\AppData\\Roaming\\NuGet\\NuGet.Config",
