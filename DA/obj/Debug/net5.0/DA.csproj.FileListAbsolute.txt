@@ -566,3 +566,7 @@ D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminRoles\Delete.cshtml.g.cs
 D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminRoles\Details.cshtml.g.cs
 D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminRoles\Edit.cshtml.g.cs
 D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminRoles\Index.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Views\Shared\_FooterPartialView.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Views\Shared\_HeaderPartialView.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Views\Home\Contact.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Views\Home\About.cshtml.g.cs
