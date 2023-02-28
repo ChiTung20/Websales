@@ -27,7 +27,7 @@ using DA.Models;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ede70c9f0202e15dab8da60a83e98439ab9ef3e1", @"/Areas/Admin/Views/AdminRoles/Edit.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"12a0e70968d7ed33f8eec9cabc50ae8b6359851b", @"/Areas/Admin/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"f270aa527260c641e573ce8baf808c1712c5940a", @"/Areas/Admin/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Areas_Admin_Views_AdminRoles_Edit : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<DA.Models.Role>
     #nullable disable

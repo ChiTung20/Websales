@@ -1,0 +1,63 @@
+﻿@model List<Product>
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cate.CateName)
+            </td>
+            <td>
+                @item.Price.Value.ToString("#,##0") $
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Thumb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitslnStock)
+            </td>
+            <td>
+                @if (item.UnitslnStock.Value > 0)
+                {
+                    <div class="d-fex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10">
+                            In Stock
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="d-fex align-items-center">
+                        <div class="badge badge-warning badge-dot m-r-10">
+                            out Stock
+                        </div>
+
+                    </div>
+                }
+            </td>
+            <td>
+                <a class="btn btn-warning btn-circle" asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProductId">
+                    <i class="fas fa-pencil-alt"></i>
+                </a> |
+                <a class="btn btn-primary btn-circle" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.ProductId">
+                    <i class="fas fa-search"></i>
+                </a> |
+                <a class="btn btn-danger btn-circle" asp-area="Admin" asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@item.ProductId">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+}
+@if (Model == null)
+{
+    <div>akúhdfgiuhgipútfeo</div>
+}
