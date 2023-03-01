@@ -1,21 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DA\\DA\\DA.csproj": {}
+    "D:\\nhapnhap\\Websales\\DA\\DA.csproj": {}
   },
   "projects": {
-    "D:\\DA\\DA\\DA.csproj": {
+    "D:\\nhapnhap\\Websales\\DA\\DA.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DA\\DA\\DA.csproj",
+        "projectUniqueName": "D:\\nhapnhap\\Websales\\DA\\DA.csproj",
         "projectName": "DA",
-        "projectPath": "D:\\DA\\DA\\DA.csproj",
-        "packagesPath": "C:\\Users\\nchit\\.nuget\\packages\\",
-        "outputPath": "D:\\DA\\DA\\obj\\",
+        "projectPath": "D:\\nhapnhap\\Websales\\DA\\DA.csproj",
+        "packagesPath": "C:\\Users\\MTBH\\.nuget\\packages\\",
+        "outputPath": "D:\\nhapnhap\\Websales\\DA\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\nchit\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\MTBH\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -93,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }
