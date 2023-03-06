@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "uX+WHDAgaeytD2IpDDtT7pB0Z1z6joUqGq6UxBOsxS4cdu3/NEfY/0IPWu6g8znFrGYgvm/3VnMnlFKmd2pKug==",
+  "dgSpecHash": "sxrZ8pHabd34dIx7FUz7HBtpUro2jqewW/fBbGuZDPYNXqQ1Wmac7RkjXAX/yuQtSRoT7KUY+Yxq82CJf3KRWA==",
   "success": true,
   "projectFilePath": "D:\\DA\\DA\\DA.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nchit\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\nchit\\.nuget\\packages\\jquery\\1.6.3\\jquery.1.6.3.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.0.0\\microsoft.aspnetcore.antiforgery.2.0.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.0.0\\microsoft.aspnetcore.authentication.abstractions.2.0.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.0.0\\microsoft.aspnetcore.authentication.core.2.0.0.nupkg.sha512",
@@ -202,6 +203,7 @@
     "C:\\Users\\nchit\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\nchit\\.nuget\\packages\\toastr\\2.1.1\\toastr.2.1.1.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\x.pagedlist\\7.5.0\\x.pagedlist.7.5.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\x.pagedlist.mvc.core\\7.5.0\\x.pagedlist.mvc.core.7.5.0.nupkg.sha512"
   ],

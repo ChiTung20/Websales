@@ -1,12 +1,21 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
-#nullable disable
+
 
 namespace DA.Models
 {
     public partial class Product
     {
+        //public Product()
+        //{
+        //    Thumb = "~/adminassets/img/products/avater.jpg";
+        //}
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ShortDesc { get; set; }
@@ -14,7 +23,11 @@ namespace DA.Models
         public int? CateId { get; set; }
         public int? Price { get; set; }
         public int? Discount { get; set; }
+        [DisplayName("Image")]
         public string Thumb { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
         public string Video { get; set; }
         public DateTime? DateCreate { get; set; }
         public DateTime? DateModified { get; set; }
@@ -26,8 +39,15 @@ namespace DA.Models
         public string Alias { get; set; }
         public string MetaDesc { get; set; }
         public string MetaKey { get; set; }
+
+        [DisplayName("Tồn Kho")]
+        [Required(ErrorMessage ="{0} không được bỏ trống")]
         public int? UnitslnStock { get; set; }
 
         public virtual ProductCategory Cate { get; set; }
+
+        //[NotMapped]
+        //public HttpPostFileBase haha { get; set; }
+
     }
 }

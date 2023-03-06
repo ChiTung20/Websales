@@ -1,0 +1,143 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<DA.Models.ProductCategory>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh mục sản phẩm" + @CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Danh Mục Sản Phẩm: @CurrentPage</h1>
+
+    <p>
+        <a asp-controller="AdminProductCategories" asp-action="Create" class="btn btn-primary">Add Category</a>
+    </p>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            @*<h6 class="m-0 font-weight-bold text-primary">Danh sách Sản Phẩm</h6>*@
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length">
+
+                        @*<label>
+                        <select class="custom-select custom-select-sm control-label form-control form-control-sm" id="txtCateID" name="txtCateID" asp-items="ViewBag.Category">
+
+                        <option selected value="0">All</option>
+                        </select>
+
+                        </label>*@
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 text-right">
+                    <div class="dataTables_length">
+                        <label>Search:</label>
+                        <label>
+
+                            <input class="form-control form-control-sm " id="keyword" name="keyword" type="search" placeholder="Search">
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                CateName
+                            </th>
+                            <th>
+                                Ordering
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Thumb
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="records_table">
+                        @if (Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                string url = $"/{item.Asas}";
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CateId)
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="@url">@item.CateName</a>
+                                    </td>
+                                   
+
+                                    <td>@item.Ordering</td>
+                                    <td>
+                                        @if (item.Published == true)
+                                        {
+
+
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-success badge-dot m-r-10">Public</div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <div class="badge badge-warning badge-dot m-r-10">Non-Public</div>
+                                            </div>
+                                        }
+
+
+                                    </td>
+                                     <td style="width:200px; height:200px; margin:10px">
+
+
+                                        @*<img class="figure-img" src="~/adminassets/img/products/@item.Thumb" />*@
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning btn-circle" asp-area="Admin" asp-controller="AdminProductCategories" asp-action="Edit" asp-route-id="@item.CateId">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a> |
+                                        <a class="btn btn-primary btn-circle" asp-area="Admin" asp-controller="AdminProductCategories" asp-action="Details" asp-route-id="@item.CateId">
+                                            <i class="fas fa-search"></i>
+                                        </a> |
+                                        <a class="btn btn-danger btn-circle" asp-area="Admin" asp-controller="AdminProductCategories" asp-action="Delete" asp-route-id="@item.CateId">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+                @* <div class="row">*@
+                @* <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+                </div>*@
+
+                <ul class="pagination">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <pager class="pagerstyle=" list="Model" asp-controller="AdminProducts" asp-route-CateID="@ViewBag.CurrentCateID" asp-action="Index"></pager>
+                    </div>
+                </ul>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+</div>

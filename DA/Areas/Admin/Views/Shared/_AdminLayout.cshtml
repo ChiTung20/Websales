@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="~/adminassets/css/sb-admin-2.min.css" rel="stylesheet">
-
+     @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body id="page-top">
@@ -244,6 +244,7 @@
     <!-- Page level custom scripts -->
     <script src="~/adminassets/js/demo/chart-area-demo.js"></script>
     <script src="~/adminassets/js/demo/chart-pie-demo.js"></script>
+    
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required:false)
 

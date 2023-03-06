@@ -586,3 +586,8 @@ D:\DA\DA\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 D:\DA\DA\bin\Debug\net5.0\X.PagedList.dll
 D:\DA\DA\bin\Debug\net5.0\X.PagedList.Mvc.Core.dll
 D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\Search\ListProductsSearchPartial.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminProductCategories\Create.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminProductCategories\Delete.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminProductCategories\Details.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminProductCategories\Edit.cshtml.g.cs
+D:\DA\DA\obj\Debug\net5.0\Razor\Areas\Admin\Views\AdminProductCategories\Index.cshtml.g.cs

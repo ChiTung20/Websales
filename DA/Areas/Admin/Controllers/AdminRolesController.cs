@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DA.Models;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace DA.Areas.Admin.Controllers
 {
@@ -13,10 +14,11 @@ namespace DA.Areas.Admin.Controllers
     public class AdminRolesController : Controller
     {
         private readonly webbanhangContext _context;
-
-        public AdminRolesController(webbanhangContext context)
+        public INotyfService _notyfService { get; }
+        public AdminRolesController(webbanhangContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminRoles
@@ -60,6 +62,7 @@ namespace DA.Areas.Admin.Controllers
             {
                 _context.Add(role);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(role);

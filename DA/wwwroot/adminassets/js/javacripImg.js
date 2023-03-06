@@ -1,0 +1,6 @@
+
+$(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop;
+    document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+    document.getElementById('Thumb').ariaValueMax = fileName
+})

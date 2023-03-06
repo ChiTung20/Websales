@@ -73,6 +73,10 @@
             "X.PagedList.Mvc.Core": {
               "target": "Package",
               "version": "[7.5.0, )"
+            },
+            "toastr": {
+              "target": "Package",
+              "version": "[2.1.1, )"
             }
           },
           "imports": [

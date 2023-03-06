@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DA.Models;
 using PagedList.Core;
+using DA.Helpper;
+using System.IO;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace DA.Areas.Admin.Controllers
 {
@@ -14,10 +19,13 @@ namespace DA.Areas.Admin.Controllers
     public class AdminProductsController : Controller
     {
         private readonly webbanhangContext _context;
-
-        public AdminProductsController(webbanhangContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public INotyfService _notyfService { get; }
+        public AdminProductsController(webbanhangContext context, INotyfService notyfService,IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminProducts
@@ -86,8 +94,10 @@ namespace DA.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
+            Product viewImg = new Product();
             ViewData["Category"] = new SelectList(_context.ProductCategorys, "CateId", "CateName");
-            return View();
+            return View(viewImg);
+
         }
 
         // POST: Admin/AdminProducts/Create
@@ -95,14 +105,27 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,ImageFile,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (ModelState.IsValid)
             {
+ 
+
+                string uniqueFileName = GetImageFileName(product);
+                product.Thumb = uniqueFileName;
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+
+
+
+                product.DateCreate = DateTime.Now;
+
+
+                _notyfService.Success("Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
+           
             ViewData["Category"] = new SelectList(_context.ProductCategorys, "CateId", "CateName", product.CateId);
             return View(product);
         }
@@ -129,19 +152,57 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,ImageFile,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product/*, Microsoft.AspNetCore.Http.IFormFile ful*/)
         {
+
+
             if (id != product.ProductId)
             {
+
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                _context.Update(product);
+                await _context.SaveChangesAsync();
+
                 try
                 {
-                    _context.Update(product);
+                    
+
+                    //xử lý upload file
+                    if (product.ImageFile != null)
+                    {
+                        ////xoá hình cũ
+                        //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/adminassets/img/products", product.Thumb);
+                        //var path = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products", product.Thumb);
+                        //System.IO.File.Delete(path);
+                        //var fileName = product.ProductId.ToString() + Path.GetExtension(product.ImageFile.FileName);//nối chuỗi -> đổi tên img
+                        //var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");// đường dẫn
+                        //var filePath = Path.Combine(uploadPath, fileName);//đường dẫn đầy đủ c/a/b/2.jpg
+                        //using (FileStream fs = System.IO.File.Create(filePath))
+                        //{
+                        //    product.ImageFile.CopyTo(fs);
+                        //    fs.Flush();
+                        //}
+                        //product.Thumb = fileName;
+                        //_context.Products.Update(product);
+                        //await _context.SaveChangesAsync();
+
+                        string uniqueFileName = GetImageFileName(product);
+                        product.Thumb = uniqueFileName;
+
+                    }
+                    //_context.Update(product);
+
+                 
+
+                    product.DateModified = DateTime.Now;
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Thêm mới thành công");
+                    return RedirectToAction(nameof(Index));
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,7 +215,6 @@ namespace DA.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["Category"] = new SelectList(_context.ProductCategorys, "CateId", "CateName");
             return View(product);
@@ -187,12 +247,37 @@ namespace DA.Areas.Admin.Controllers
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xoá thành công");
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);
+        }
+
+        private string GetImageFileName(Product product)
+        {
+            string uniqueFileName = null;
+            if (product.ImageFile != null)
+            {
+
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    product.ImageFile.CopyTo(fileStream);
+                    fileStream.Flush();
+                }
+                product.Thumb = uniqueFileName;
+
+            }
+
+
+
+            _context.Products.Update(product);
+            return uniqueFileName;
         }
     }
 }
