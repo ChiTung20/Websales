@@ -1,0 +1,217 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<DA.Models.Customer>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh Sách Khách Hàng" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="page-header">
+        <h2 class="header-title">Danh Sách Khách Hàng</h2>
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+
+                <span class="breadcrumb-item active">Danh Sách Khách Hàng : page @CurrentPage  </span>
+            </nav>
+        </div>
+    </div>
+
+    @*<p>
+            <a asp-action="Create" class="btn btn-primary">Thêm Tài Khoản</a>
+        </p>*@
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            @*<h6 class="m-0 font-weight-bold text-primary">Danh sách Sản Phẩm</h6>*@
+            <div class="row m-b-30">
+                <div class="col-lg-8">
+                    <div class="d-md-flex">
+                        <div class="m-b-10 m-r-15">
+                            <select class="custom-select custom-select-sm form-control form-control-sm" style="min-width: 180px;">
+                                <option selected>Catergory</option>
+                                <option value="all">All</option>
+                                <option value="homeDeco">Home Decoration</option>
+                                <option value="eletronic">Eletronic</option>
+                                <option value="jewellery">Jewellery</option>
+                            </select>
+                        </div>
+                        <div class="m-b-10">
+                            <select class="custom-select custom-select-sm form-control form-control-sm" style="min-width: 180px;">
+                                <option selected>Status</option>
+                                <option value="all">All</option>
+                                <option value="inStock">In Stock </option>
+                                <option value="outOfStock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <a asp-action="Create" class="btn btn-primary">Thêm Tài Khoản</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body"><div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+
+                <th>ID</th>
+                <th>Họ và Tên</th>
+                <th>Địa Chỉ</th>
+                <th>Tinh Thành</th>
+                <th>#</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.CustomerId</td>
+                        <td>
+                            <p>@item.FullName</p>
+                            <p>@item.Phone</p>
+                            <p>@item.Email</p>
+                        </td>
+                        <td>@item.Address</td>
+                        <td>@item.Location.Name</td>
+                        <td>
+                            <a class="btn btn-warning btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Edit" asp-route-id="@item.CustomerId">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a> |
+                            <a class="btn btn-primary btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Details" asp-route-id="@item.CustomerId">
+                                <i class="fas fa-search"></i>
+                            </a> |
+                            <a class="btn btn-danger btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Delete" asp-route-id="@item.CustomerId">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+    </table>
+    @*<div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+        </div>*@
+
+    <ul class="pagination">
+        <div class="dataTables_paginate paging_simple_numbers">
+            <pager class="pagerstyle=" list="Model" asp-controller="AdminCustomers" asp-action="Index"></pager>
+        </div>
+    </ul>
+
+
+    @*</div>*@
+
+</div></div>
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+@*<div class="page-header">
+        <h2 class="header-title">Danh Sách Khách Hàng</h2>
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Home</a>
+                <span class="breadcrumb-item active">Danh Sách Khách Hàng : page @CurrentPage  </span>
+            </nav>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-b-30">
+                <div class="col-lg-8">
+                    <div class="d-md-flex">
+                        <div class="m-b-10 m-r-15">
+                            <select class="custom-select" style="min-width: 180px;">
+                                <option selected>Catergory</option>
+                                <option value="all">All</option>
+                                <option value="homeDeco">Home Decoration</option>
+                                <option value="eletronic">Eletronic</option>
+                                <option value="jewellery">Jewellery</option>
+                            </select>
+                        </div>
+                        <div class="m-b-10">
+                            <select class="custom-select" style="min-width: 180px;">
+                                <option selected>Status</option>
+                                <option value="all">All</option>
+                                <option value="inStock">In Stock </option>
+                                <option value="outOfStock">Out of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button class="btn btn-primary">
+                        <i class="anticon anticon-plus-circle m-r-5"></i>
+                        <span>Add Product</span>
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover e-commerce-table">
+                    <thead>
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Họ và Tên</th>
+                            <th>Điện Thoại</th>
+                            <th>Email</th>
+                            <th>Địa Chỉ</th>
+                            <th>Tinh Thành</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.CustomerId</td>
+                                    <td>@item.FullName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Address</td>
+                                    <td>@item.Location.Name</td>
+                                    <td>20</td>
+
+                                    <td>
+                                        <a class="btn btn-warning btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Edit" asp-route-id="@item.CustomerId">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a> |
+                                        <a class="btn btn-primary btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Details" asp-route-id="@item.CustomerId">
+                                            <i class="fas fa-search"></i>
+                                        </a> |
+                                        <a class="btn btn-danger btn-circle" asp-area="Admin" asp-controller="AdminCustomers" asp-action="Delete" asp-route-id="@item.CustomerId">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>*@

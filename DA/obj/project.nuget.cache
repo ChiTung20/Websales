@@ -207,5 +207,12 @@
     "C:\\Users\\nchit\\.nuget\\packages\\x.pagedlist\\7.5.0\\x.pagedlist.7.5.0.nupkg.sha512",
     "C:\\Users\\nchit\\.nuget\\packages\\x.pagedlist.mvc.core\\7.5.0\\x.pagedlist.mvc.core.7.5.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\DA\\DA\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
