@@ -41,7 +41,7 @@ namespace DA.Models
         public string MetaKey { get; set; }
 
         [DisplayName("Tồn Kho")]
-        [Required(ErrorMessage ="{0} không được bỏ trống")]
+        [Required(ErrorMessage = "{0} không được bỏ trống")]
         public int? UnitslnStock { get; set; }
 
         public virtual ProductCategory Cate { get; set; }
