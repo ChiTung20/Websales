@@ -485,4 +485,8 @@ D:\DA\DA\obj\Debug\net5.0\DA.dll
 D:\DA\DA\obj\Debug\net5.0\DA.pdb
 D:\DA\DA\obj\Debug\net5.0\DA.genruntimeconfig.cache
 D:\DA\DA\obj\Debug\net5.0\ref\DA.dll
+<<<<<<< HEAD
 D:\DA\DA\obj\Debug\net5.0\refint\DA.dll
+=======
+D:\DA\DA\bin\Debug\net5.0\ref\DA.dll
+>>>>>>> c2a2f87cdb51e68dc66c567b68d3c6a6096d16ff
