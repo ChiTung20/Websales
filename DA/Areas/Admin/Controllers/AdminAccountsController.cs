@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DA.Models;
-//dsd
-//dsdd
+
+//dsdd123
 namespace DA.Areas.Admin.Controllers
 {
     [Area("Admin")]
