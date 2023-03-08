@@ -48,6 +48,7 @@ namespace DA.Models
 
         //[NotMapped]
         //public HttpPostFileBase haha { get; set; }
+        //public HttpPostFileBase haha { get; set; }
 
     }
 }
