@@ -7,6 +7,7 @@ namespace DA.Models
 {
     public partial class Page
     {
+        //note rac nheeeeeeeeeeeee
         public int PageId { get; set; }
         public string PageName { get; set; }
         public string Contents { get; set; }
