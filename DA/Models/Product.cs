@@ -12,8 +12,7 @@ namespace DA.Models
 {
     public partial class Product
     {
-        
-        //public Product()12341234
+        //public Product()
         //{
         //    Thumb = "~/adminassets/img/products/avater.jpg";
         //}
