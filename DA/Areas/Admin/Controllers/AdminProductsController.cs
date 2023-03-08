@@ -109,19 +109,27 @@ namespace DA.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
- 
 
-                string uniqueFileName = GetImageFileName(product);
-                product.Thumb = uniqueFileName;
+
+                //string uniqueFileName = GetImageFileName(product);
+                //product.Thumb = uniqueFileName;        
+
+                //product.DateCreate = DateTime.Now;
+
+                product.ProductName = Utilities.ToTitleCase(product.ProductName);
+                if (fThumb != null)
+                {
+                    string extension = Path.GetExtension(fThumb.FileName);
+                    string image = Utilities.SEOUrl(product.ProductName) + extension;
+                    product.Thumb = await Utilities.UploadFile(fThumb, @"products", image.ToLower());
+                }
+                if (string.IsNullOrEmpty(product.Thumb)) product.Thumb = "default.jpg";
+                product.Alias = Utilities.SEOUrl(product.ProductName);
+                product.DateModified = DateTime.Now;
+                product.DateCreate = DateTime.Now;
 
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-
-
-
-                product.DateCreate = DateTime.Now;
-
-
                 _notyfService.Success("Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
@@ -152,7 +160,7 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,ImageFile,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product/*, Microsoft.AspNetCore.Http.IFormFile ful*/)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,ImageFile,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
 
 
@@ -164,44 +172,49 @@ namespace DA.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
 
                 try
                 {
-                    
 
-                    //xử lý upload file
-                    if (product.ImageFile != null)
-                    {
-                        ////xoá hình cũ
-                        //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/adminassets/img/products", product.Thumb);
-                        //var path = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products", product.Thumb);
-                        //System.IO.File.Delete(path);
-                        //var fileName = product.ProductId.ToString() + Path.GetExtension(product.ImageFile.FileName);//nối chuỗi -> đổi tên img
-                        //var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");// đường dẫn
-                        //var filePath = Path.Combine(uploadPath, fileName);//đường dẫn đầy đủ c/a/b/2.jpg
-                        //using (FileStream fs = System.IO.File.Create(filePath))
-                        //{
-                        //    product.ImageFile.CopyTo(fs);
-                        //    fs.Flush();
-                        //}
-                        //product.Thumb = fileName;
-                        //_context.Products.Update(product);
-                        //await _context.SaveChangesAsync();
 
-                        string uniqueFileName = GetImageFileName(product);
-                        product.Thumb = uniqueFileName;
+                    ////xử lý upload file
+                    //if (product.ImageFile != null)
+                    //{
+                    //    ////xoá hình cũ
+                    //    //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/adminassets/img/products", product.Thumb);
+                    //    //var path = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products", product.Thumb);
+                    //    //System.IO.File.Delete(path);
+                    //    //var fileName = product.ProductId.ToString() + Path.GetExtension(product.ImageFile.FileName);//nối chuỗi -> đổi tên img
+                    //    //var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");// đường dẫn
+                    //    //var filePath = Path.Combine(uploadPath, fileName);//đường dẫn đầy đủ c/a/b/2.jpg
+                    //    //using (FileStream fs = System.IO.File.Create(filePath))
+                    //    //{
+                    //    //    product.ImageFile.CopyTo(fs);
+                    //    //    fs.Flush();
+                    //    //}
+                    //    //product.Thumb = fileName;
+                    //    //_context.Products.Update(product);
+                    //    //await _context.SaveChangesAsync();
 
-                    }
+                    //    string uniqueFileName = GetImageFileName(product);
+                    //    product.Thumb = uniqueFileName;
+
+                    //}
                     //_context.Update(product);
-
-                 
-
+                    product.ProductName = Utilities.ToTitleCase(product.ProductName);
+                    if (fThumb != null)
+                    {
+                        string extension = Path.GetExtension(fThumb.FileName);
+                        string image = Utilities.SEOUrl(product.ProductName) + extension;
+                        product.Thumb = await Utilities.UploadFile(fThumb, @"products", image.ToLower());
+                    }
+                    if (string.IsNullOrEmpty(product.Thumb)) product.Thumb = "default.jpg";
+                    product.Alias = Utilities.SEOUrl(product.ProductName);
                     product.DateModified = DateTime.Now;
+
+                    _context.Update(product);
+                    _notyfService.Success("Cập nhật thành công");
                     await _context.SaveChangesAsync();
-                    _notyfService.Success("Thêm mới thành công");
-                    return RedirectToAction(nameof(Index));
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -215,6 +228,7 @@ namespace DA.Areas.Admin.Controllers
                         throw;
                     }
                 }
+                return RedirectToAction(nameof(Index));
             }
             ViewData["Category"] = new SelectList(_context.ProductCategorys, "CateId", "CateName");
             return View(product);
@@ -256,28 +270,27 @@ namespace DA.Areas.Admin.Controllers
             return _context.Products.Any(e => e.ProductId == id);
         }
 
-        private string GetImageFileName(Product product)
-        {
-            string uniqueFileName = null;
-            if (product.ImageFile != null)
-            {
+        ////Upload cách khác
+        //private string GetImageFileName(Product product)
+        //{
+        //    string uniqueFileName = null;
+        //    if (product.ImageFile != null)
+        //    {
 
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + product.ImageFile.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    product.ImageFile.CopyTo(fileStream);
-                    fileStream.Flush();
-                }
-                product.Thumb = uniqueFileName;
+        //        string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "adminassets", "img", "products");
+        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + product.ImageFile.FileName;
+        //        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            product.ImageFile.CopyTo(fileStream);
+        //            fileStream.Flush();
+        //        }
+        //        product.Thumb = uniqueFileName;
 
-            }
+        //    }
 
-
-
-            _context.Products.Update(product);
-            return uniqueFileName;
-        }
+        //    _context.Products.Update(product);
+        //    return uniqueFileName;
+        //}
     }
 }

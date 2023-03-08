@@ -61,7 +61,8 @@
                             @Html.DisplayNameFor(model => model.Thumb)
                         </dt>
                         <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Thumb)
+                            @*@Html.DisplayFor(model => model.Thumb)*@
+                            <img class="figure-img" src="~/images/category/@Model.Thumb" />
                         </dd>
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Title)

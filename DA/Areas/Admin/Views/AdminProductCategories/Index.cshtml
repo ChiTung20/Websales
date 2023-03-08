@@ -105,9 +105,11 @@
                                     </td>
                                      <td style="width:200px; height:200px; margin:10px">
 
-
-                                        @*<img class="figure-img" src="~/adminassets/img/products/@item.Thumb" />*@
+  
+                                        @*@Html.DisplayFor(modelItem => item.Thumb)*@
+                                        <img  class="figure-img" src="~/images/category/@item.Thumb"  />
                                     </td>
+
                                     <td>
                                         <a class="btn btn-warning btn-circle" asp-area="Admin" asp-controller="AdminProductCategories" asp-action="Edit" asp-route-id="@item.CateId">
                                             <i class="fas fa-pencil-alt"></i>

@@ -21,7 +21,7 @@
                 <div class="form-group col-md-6">
                     <h2 class="h3 mb-2 text-gray-800">Edit</h2>
                 </div>
-              
+
             </div>
         </div>
         <div class="card-body">
@@ -75,19 +75,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                       <label asp-for="ImageFile">Edit Image</label>
-                        <div class="col-md-12 btn-group pb-2">
-                        <div class="form-group col-4 p-0">
-                            
-                            <img style="height:200px; width:200px; margin:20px" id="PreviewPhoto" src="~/adminassets/img/products/@Model.Thumb" alt="Logo Image"/>
-                            <span asp-validation-for="Thumb" class="text-danger"></span>
-                            <input asp-for="ImageFile" class="form-control custom-file-input" id="customFile"/>
-                                <label  class="input-group-text" for="customFile" style="width:80px; text-align: center">Browse</label>
-                        </div>
-                       
-                    </div>
-
-                    </div>
+                        <label class="font-weight-semibold" for="productBrand">Ảnh đại diện</label>
+                        <img style="height:200px; width:200px; margin:20px" id="PreviewPhoto" src="~/images/products/@Model.Thumb" alt="Logo Image" />
+                        <input name="fThumb" type="file" class="form-control-file " asp-for="Thumb" id="customFile"/>
+                        <span asp-validation-for="Thumb" class="text-danger" for="customFile"></span>
+                    </div>  
                     <div class="form-group">
                         <label asp-for="Video" class="control-label"></label>
                         <input asp-for="Video" class="form-control" />
@@ -97,7 +89,7 @@
                         <div class="form-group col-md-6">
                             <div class="form-group">
                                 <label asp-for="DateCreate" class="control-label"></label>
-                                <input asp-for="DateCreate" class="form-control"/>
+                                <input asp-for="DateCreate" class="form-control" />
                                 <span asp-validation-for="DateCreate" class="text-danger"></span>
                             </div>
                         </div>
@@ -185,10 +177,10 @@
 @section Scripts{
     <script>
 
-$(".custom-file-input").on("change", function() {
-    var fileName = $(this).val().split("\\").pop;
-    document.getElementById('PreviewPhoto').src=window.URL.createObjectURL(this.files[0]);
-    document.getElementById('Thumb').ariaValueMax =fileName
-})
+        $(".form-control-file").on("change", function() {
+            var fileName = $(this).val().split("\\").pop;
+            document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+            document.getElementById('Thumb').ariaValueMax = fileName
+        })
     </script>
 }

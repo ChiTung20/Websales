@@ -1,7 +1,7 @@
 ﻿@model DA.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -57,7 +57,7 @@
                         </dt>
                         <dd class="col-sm-10">
                             @*@Html.DisplayFor(model => model.Thumb)*@
-                            <img  class="figure-img" src="~/adminassets/img/products/@Model.Thumb"  />
+                            <img  class="figure-img" src="~/images/products/@Model.Thumb"  />
                         </dd>
                         <dt class="col-sm-2">
                             @Html.DisplayNameFor(model => model.Video)

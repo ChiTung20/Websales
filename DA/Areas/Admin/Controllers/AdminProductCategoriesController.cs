@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DA.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using PagedList.Core;
+using System.IO;
+using DA.Helpper;
 
 namespace DA.Areas.Admin.Controllers
 {
@@ -66,12 +68,22 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CateId,CateName,Description,ParentId,Levels,Ordering,Published,Thumb,Title,Asas,MetaDesc,MetaKey,Cover,SchemaMarkup")] ProductCategory productCategory)
+        public async Task<IActionResult> Create([Bind("CateId,CateName,Description,ParentId,Levels,Ordering,Published,Thumb,Title,Asas,MetaDesc,MetaKey,Cover,SchemaMarkup")] ProductCategory productCategory, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (ModelState.IsValid)
             {
+                //Xu ly Thumb
+                if (fThumb != null)
+                {
+                    string extension = Path.GetExtension(fThumb.FileName);
+                    string imageName = Utilities.SEOUrl(productCategory.CateName) + extension;
+                    productCategory.Thumb = await Utilities.UploadFile(fThumb, @"category", imageName.ToLower());
+                }
+                if (string.IsNullOrEmpty(productCategory.Thumb)) productCategory.Thumb = "default.jpg";
+                productCategory.Asas = Utilities.SEOUrl(productCategory.CateName);
                 _context.Add(productCategory);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(productCategory);
@@ -98,7 +110,7 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CateId,CateName,Description,ParentId,Levels,Ordering,Published,Thumb,Title,Asas,MetaDesc,MetaKey,Cover,SchemaMarkup")] ProductCategory productCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("CateId,CateName,Description,ParentId,Levels,Ordering,Published,Thumb,Title,Asas,MetaDesc,MetaKey,Cover,SchemaMarkup")] ProductCategory productCategory, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (id != productCategory.CateId)
             {
@@ -109,8 +121,16 @@ namespace DA.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (fThumb != null)
+                    {
+                        string extension = Path.GetExtension(fThumb.FileName);
+                        string imageName = Utilities.SEOUrl(productCategory.CateName) + extension;
+                        productCategory.Thumb = await Utilities.UploadFile(fThumb, @"category", imageName.ToLower());
+                    }
+                    if (string.IsNullOrEmpty(productCategory.Thumb)) productCategory.Thumb = "default.jpg";
                     _context.Update(productCategory);
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Chỉnh sửa thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

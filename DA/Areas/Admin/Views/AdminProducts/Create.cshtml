@@ -1,7 +1,7 @@
 ﻿@model DA.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -63,12 +63,17 @@
                     <label asp-for="ImageFile">Chooose Image :</label>
                     <div class="col-md-12 btn-group pb-2">
 
-                        <div class="form-group col-4 p-0">
+                        @*<div class="form-group col-4 p-0">
 
-                            <img style="height:200px; width:200px; margin:20px" id="PreviewPhoto" src="~/adminassets/img/products/No-Image.jpg" alt="Logo Image" />
+                        <img style="height:200px; width:200px; margin:20px" id="PreviewPhoto" src="~/adminassets/img/products/No-Image.jpg" alt="Logo Image" />
+                        <span asp-validation-for="Thumb" class="text-danger"></span>
+                        <input asp-for="ImageFile" class="form-control custom-file-input" id="customFile" />
+                        <label class="input-group-text" for="customFile" style="width:80px; text-align: center">Browse</label>
+                        </div>*@
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="productBrand">Ảnh đại diện</label>
+                            <input name="fThumb" type="file" class="form-control-file" asp-for="Thumb" />
                             <span asp-validation-for="Thumb" class="text-danger"></span>
-                            <input asp-for="ImageFile" class="form-control custom-file-input" id="customFile" />
-                            <label class="input-group-text" for="customFile" style="width:80px; text-align: center">Browse</label>
                         </div>
                     </div>
                     <div ID="HiddenDiv" style="visibility: hidden">

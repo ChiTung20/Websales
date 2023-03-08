@@ -46,9 +46,5 @@ namespace DA.Models
 
         public virtual ProductCategory Cate { get; set; }
 
-        //[NotMapped]
-        //public HttpPostFileBase haha { get; set; }
-        //public HttpPostFileBase haha { get; set; }
-
     }
 }
