@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DA.Models;
+using PagedList.Core;
 
 namespace DA.Controllers
 {
@@ -17,142 +18,80 @@ namespace DA.Controllers
             _context = context;
         }
 
+
+        [Route("shop.html", Name = ("ShopProduct"))]
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var webbanhangContext = _context.Products.Include(p => p.Cate);
-            return View(await webbanhangContext.ToListAsync());
+            try
+            {
+                var pageNumber = page == null || page <= 0 ? 1 : page.Value;
+                var pageSize = 10;
+                var lsProducts = _context.Products
+                    .AsNoTracking()
+                    .OrderBy(x => x.DateCreate);
+                PagedList<Product> models = new PagedList<Product>(lsProducts, pageNumber, pageSize);
+
+                ViewBag.CurrentPage = pageNumber;
+                return View(models);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
+
+        [Route("danhmuc/{Alias}", Name = ("ListProduct"))]
+        public async Task<IActionResult> List(string Alias, int page =1)
+        {
+            try
+            {
+                var pageSize = 10;
+                var danhmuc = _context.ProductCategorys.AsNoTracking().SingleOrDefault(x => x.Asas == Alias);
+
+                var lsTinDangs = _context.Products
+                    .AsNoTracking()
+                    .Where(x => x.CateId == danhmuc.CateId)
+                    .OrderByDescending(x => x.DateCreate);
+                PagedList<Product> models = new PagedList<Product>(lsTinDangs, page, pageSize);
+                ViewBag.CurrentPage = page;
+                ViewBag.CurrentCat = danhmuc;
+                return View(models);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+        }
+
+        [Route("/{Alias}-{id}.html", Name = ("ProductDetails"))]
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Cate)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            return View(product);
-        }
-
-        // GET: Products/Create
-        public IActionResult Create()
-        {
-            ViewData["CateId"] = new SelectList(_context.ProductCategorys, "CateId", "CateId");
-            return View();
-        }
-
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CateId"] = new SelectList(_context.ProductCategorys, "CateId", "CateId", product.CateId);
-            return View(product);
-        }
-
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["CateId"] = new SelectList(_context.ProductCategorys, "CateId", "CateId", product.CateId);
-            return View(product);
-        }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CateId,Price,Discount,Thumb,Video,DateCreate,DateModified,BestSalers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitslnStock")] Product product)
-        {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var product = _context.Products.Include(x => x.Cate).FirstOrDefault(x => x.ProductId == id);
+                if (product == null)
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var lsProduct = _context.Products
+                    .AsNoTracking()
+                    .Where(x => x.CateId == product.CateId && x.ProductId != id && x.Active == true)
+                    .Take(4)
+                    .OrderByDescending(x => x.DateCreate)
+                    .ToList();
+                ViewBag.SanPham = lsProduct;
+                return View(product);
             }
-            ViewData["CateId"] = new SelectList(_context.ProductCategorys, "CateId", "CateId", product.CateId);
-            return View(product);
-        }
-
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            catch
             {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Cate)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
+                return RedirectToAction("Index", "Home");
+            };
         }
 
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
-        }
+     
     }
 }
