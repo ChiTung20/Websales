@@ -20,9 +20,6 @@
             <a asp-action="Create" class="btn btn-primary">Thêm Tài Khoản</a>
         </p>*@
     <div class="card shadow mb-4">
-
-
-
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -32,7 +29,7 @@
                             <th>ID</th>
                             <th> Page Name</th>
                             <th>Trạng Thái</th>
-                            <th>#</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,16 +47,16 @@
                                         @if (item.Published == true)
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="badge badge-success badge-dot m-r-10"></div>
-                                                <div>Public</div>
+                                                <div class="badge badge-success badge-dot m-r-10"> Public</div>
+
 
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="d-flex align-items-center">
-                                                <div class="badge badge-success badge-dot m-r-10"></div>
-                                                <div>Non-Public</div>
+                                                <div class="badge badge-warning badge-dot m-r-10">Non-Public</div>
+
 
                                             </div>
                                         }
@@ -94,7 +91,6 @@
                         </div>
                     </ul>
                 </div>
-
                 @*</div>*@
 
             </div>

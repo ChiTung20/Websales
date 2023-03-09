@@ -12,9 +12,7 @@ namespace DA.Models
 {
     public partial class Product
     {
-        //public Product()99999999999999999999999
         //public Product()
-        //public Product() 1233333233
         //{
         //    Thumb = "~/adminassets/img/products/avater.jpg";
         //}
@@ -47,6 +45,9 @@ namespace DA.Models
         public int? UnitslnStock { get; set; }
 
         public virtual ProductCategory Cate { get; set; }
-        
+
+        //[NotMapped]
+        //public HttpPostFileBase haha { get; set; }
+
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DA.Models;
 using PagedList.Core;
+using System.IO;
+using DA.Helpper;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace DA.Areas.Admin.Controllers
 {
@@ -14,10 +17,11 @@ namespace DA.Areas.Admin.Controllers
     public class AdminPagesController : Controller
     {
         private readonly webbanhangContext _context;
-
-        public AdminPagesController(webbanhangContext context)
+        public INotyfService _notyfService { get; }
+        public AdminPagesController(webbanhangContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminPages
@@ -68,9 +72,18 @@ namespace DA.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 //Xử lý thumb
+                if (fThumb != null)
+                {
+                    string extension = Path.GetExtension(fThumb.FileName);
+                    string imageName = Utilities.SEOUrl(page.PageName) + extension;
+                    page.Thumb = await Utilities.UploadFile(fThumb, @"pages", imageName.ToLower());
+                }
+                if (string.IsNullOrEmpty(page.Thumb)) page.Thumb = "default.jpg";
+                page.Alias = Utilities.SEOUrl(page.PageName);
 
                 _context.Add(page);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Thêm page thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(page);
@@ -97,7 +110,7 @@ namespace DA.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PageId,PageName,Contents,Published,Thumb,Title,MateDesc,MetaKey,Alias,CreatedAt,Ordering")] Page page)
+        public async Task<IActionResult> Edit(int id, [Bind("PageId,PageName,Contents,Published,Thumb,Title,MateDesc,MetaKey,Alias,CreatedAt,Ordering")] Page page, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (id != page.PageId)
             {
@@ -108,8 +121,21 @@ namespace DA.Areas.Admin.Controllers
             {
                 try
                 {
+
+                    //Xử lý thumb
+                    if (fThumb != null)
+                    {
+                        string extension = Path.GetExtension(fThumb.FileName);
+                        string imageName = Utilities.SEOUrl(page.PageName) + extension;
+                        page.Thumb = await Utilities.UploadFile(fThumb, @"pages", imageName.ToLower());
+                    }
+                    if (string.IsNullOrEmpty(page.Thumb)) page.Thumb = "default.jpg";
+                    page.Alias = Utilities.SEOUrl(page.PageName);
+
+
                     _context.Update(page);
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Update Success !");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -153,6 +179,7 @@ namespace DA.Areas.Admin.Controllers
             var page = await _context.Pages.FindAsync(id);
             _context.Pages.Remove(page);
             await _context.SaveChangesAsync();
+            _notyfService.Success("Delete Success !");
             return RedirectToAction(nameof(Index));
         }
 
